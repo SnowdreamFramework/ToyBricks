@@ -1,0 +1,109 @@
+apply plugin: 'maven'
+apply plugin: 'signing'
+apply from: "${rootDir}/gradle/plugins/util.gradle"
+
+group = optProperty("POM_GROUP_ID")
+archivesBaseName = optProperty("POM_NAME")
+version =  optProperty("POM_VERSION")
+
+configurations {
+    archives {
+        extendsFrom configurations.default
+    }
+}
+
+ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
+
+def mavenRepoUrl
+if (isReleaseVersion) {
+    mavenRepoUrl =  optProperty("MAVEN_DEPLOY_URL","https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+    
+} else {
+    mavenRepoUrl = optProperty("MAVEN_DEPLOY_SNAPSHOT_URL","https://oss.sonatype.org/content/repositories/snapshots/")
+}
+
+afterEvaluate { project ->
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                configurePOM(pom)
+                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+                repository(url: mavenRepoUrl) {
+                    authentication(userName: optProperty("MAVEN_DEPLOY_USERNAME"), password: optProperty("MAVEN_DEPLOY_PASSWORD"))
+                }
+            }
+        }
+    }
+
+    signing {
+        required { isReleaseVersion && gradle.taskGraph.hasTask("uploadArchives") }
+        sign configurations.archives
+    }
+
+    task androidReleaseJar(type: Jar,dependsOn: "assembleRelease") {
+        from "$buildDir/intermediates/classes/release/"
+        exclude '**/BuildConfig.class'
+        exclude '**/R.class'
+        exclude '**/R$*.class'
+    }
+
+    task androidJavadocsJar(type: Jar) {
+        classifier = 'javadoc'
+        from "generateReleaseJavadoc.destinationDir"
+    }
+
+    task androidSourcesJar(type: Jar) {
+        classifier = 'sources'
+        from android.sourceSets.main.java.srcDirs
+    }
+
+
+    artifacts {
+        archives androidReleaseJar
+        archives androidSourcesJar
+        archives androidJavadocsJar
+    }
+}
+
+private configurePOM(def pom) {
+    pom.project {
+        groupId optProperty("POM_GROUP_ID")
+        artifactId optProperty("POM_ARTIFACT_ID")
+        version optProperty("POM_VERSION")
+        name optProperty("POM_NAME")
+        packaging optProperty("POM_PACKAGING")
+        description optProperty("POM_DESCRIPTION")
+        url optProperty("POM_URL")
+        inceptionYear optProperty("POM_INCEPTION_YEAR")
+
+        scm {
+            url optProperty("POM_SCM_URL")
+            connection optProperty("POM_SCM_CONNECTION")
+            developerConnection optProperty("POM_SCM_DEV_CONNECTION")
+        }
+
+        licenses {
+            license {
+                name optProperty("POM_LICENCE_NAME")
+                url optProperty("POM_LICENCE_URL")
+                distribution optProperty("POM_LICENCE_DIST")
+                comments optProperty("POM_LICENCE_COMMENTS")
+            }
+        }
+
+        developers {
+            developer {
+                id optProperty("POM_DEVELOPER_ID")
+                name optProperty("POM_DEVELOPER_NAME")
+                email optProperty("POM_DEVELOPER_EMAIL")
+                url optProperty("POM_DEVELOPER_URL")
+            }
+        }
+
+        issueManagement {
+            system optProperty("POM_ISSUE_MANAGEMENT_SYSTEM")
+            url optProperty("POM_ISSUE_MANAGEMENT_URL")
+        }
+    }
+}

@@ -1,0 +1,46 @@
+// util
+
+
+/** 
+ * opt property from system env, system.properties, project property
+ *
+ * Usage: 
+ *  
+ * apply from: "util.gradle"
+ * 
+ * optProperty("GRADLE_HOME")
+ * 
+ */  
+ext.optProperty = { propertyName , defaultPropertyValue = "" ->
+
+     //system env
+     if (System.getenv().containsKey(propertyName)) {
+       return System.getenv(propertyName);
+     }
+     
+     //system property
+     if (System.properties.containsKey(propertyName)) {
+       return System.properties[propertyName];
+     }
+     
+     //project property
+     if (project.hasProperty(propertyName)) {
+       return project.getProperty(propertyName);
+     }
+    
+    return defaultPropertyValue;
+ }
+ 
+ /** 
+  * check property from system env, system.properties, project property
+  *
+  * Usage: 
+  *  
+  * apply from: "util.gradle"
+  * 
+  * hasProperty("GRADLE_HOME")
+  * 
+  */  
+ ext.hasProperty = { propertyName ->
+     return (System.getenv().containsKey(propertyName) || System.properties.containsKey(propertyName) || project.hasProperty(propertyName));
+  }

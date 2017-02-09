@@ -1,0 +1,40 @@
+buildscript {
+    repositories {
+        maven { url  'file:///' + System.getenv("ANDROID_HOME")+ '/extras/android/m2repository/'}
+        maven { url  'file:///' + new File(System.getProperty('user.home'), '.m2/repository').absolutePath}
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
+        jcenter { url "http://jcenter.bintray.com/"}
+        maven { url "http://repo1.maven.org/maven2"}
+        maven { url "https://jitpack.io" }
+        maven { url "http://oss.sonatype.org/content/repositories/snapshots" }
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.2.2'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5' //for bintray_push.gradle
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.1'//for bintray_push.gradle
+    }
+}
+
+allprojects {
+  
+    repositories {
+        maven { url  'file:///' + System.getenv("ANDROID_HOME")+ '/extras/android/m2repository/'}
+        maven { url  'file:///' + new File(System.getProperty('user.home'), '.m2/repository').absolutePath}
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
+        jcenter { url "http://jcenter.bintray.com/"}
+        maven { url "http://repo1.maven.org/maven2"}
+        maven { url "https://jitpack.io" }
+        maven { url "http://oss.sonatype.org/content/repositories/snapshots" }
+    }
+
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+    }
+}
+
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.1'
+    distributionUrl = "http://android-mirror.bugly.qq.com:8080/gradle/gradle-${gradleVersion}-bin.zip"
+}

@@ -1,0 +1,8 @@
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply from: "${rootDir}/gradle/plugins/android.gradle"
+
+
+dependencies {
+    //compile project(':lib')
+}
