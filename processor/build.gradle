@@ -1,0 +1,6 @@
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply from: "${rootDir}/gradle/plugins/android-library.gradle"
+apply from: "${rootDir}/gradle/plugins/bintray-push.gradle"
+
+
