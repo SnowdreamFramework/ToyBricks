@@ -1,16 +1,12 @@
 package com.github.snowdream.toybricks.processor;
 
-import com.github.snowdream.toybricks.annotation.Interface;
-
-import javax.lang.model.element.*;
-import javax.lang.model.type.TypeKind;
-import javax.lang.model.type.TypeMirror;
-import java.util.Set;
+import javax.lang.model.element.Modifier;
+import javax.lang.model.element.TypeElement;
 
 /**
  * Created by snowdream on 17/2/12.
  */
-public class InterfaceAnnotatedClass extends BaseAnnotatedClass{
+public class InterfaceAnnotatedClass extends BaseAnnotatedClass {
 
     public InterfaceAnnotatedClass(TypeElement classElement) throws ProcessingException {
         this.annotatedClassElement = classElement;
