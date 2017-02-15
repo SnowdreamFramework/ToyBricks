@@ -11,7 +11,6 @@ public abstract class BaseAnnotatedClass {
 
     /**
      *
-     * @return
      */
     public abstract void checkValid(ProcessorManager processorManager) throws ProcessingException;
 }
