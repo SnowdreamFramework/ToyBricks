@@ -6,5 +6,5 @@ apply from: "${rootDir}/gradle/plugins/android.gradle"
 dependencies {
     compile project(':lib')
     compile project(':annotation')
-    compile project(':processor')
+    annotationProcessor project(':processor')
 }
