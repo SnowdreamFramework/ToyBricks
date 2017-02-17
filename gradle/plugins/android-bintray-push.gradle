@@ -28,7 +28,7 @@ bintray {
 
     pkg {
         repo = "maven"
-        name = optProperty("POM_GROUP_ID") +":"+ optProperty("POM_ARTIFACT_ID")
+        name = "SnowdreamFramework" //optProperty("POM_GROUP_ID") +":"+ optProperty("POM_ARTIFACT_ID")
         userOrg = optProperty("BINTRAY_USER")
         websiteUrl = optProperty("POM_URL")
         issueTrackerUrl = optProperty("POM_ISSUE_MANAGEMENT_URL")
