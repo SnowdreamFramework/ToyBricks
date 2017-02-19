@@ -26,3 +26,7 @@ dokka {
     }
     sourceDirs = files('src/main/kotlin')
 }
+
+jar{
+    includeEmptyDirs = false
+}
