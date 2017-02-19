@@ -1,5 +1,6 @@
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
+apply plugin: 'org.jetbrains.dokka-android'
 apply from: "${rootDir}/gradle/plugins/util.gradle"
 
 group = optProperty("POM_GROUP_ID")
@@ -74,10 +75,16 @@ task androidSourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
 }
 
+task kotlinjavadocJar(type: Jar, dependsOn: dokka) {
+    classifier 'javadoc'
+    from "$buildDir/javadoc"
+}
+
 artifacts {
     archives androidReleaseJar
     archives androidSourcesJar
     archives androidJavadocsJar
+    archives kotlinjavadocJar
 }
 
 private configurePOM(def pom) {

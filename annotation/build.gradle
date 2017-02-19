@@ -1,10 +1,6 @@
 apply plugin: 'eclipse'
 apply plugin: 'idea'
-apply plugin: 'java'
-apply from: "${rootDir}/gradle/plugins/java-bintray-push.gradle"
-
-targetCompatibility = '1.7'
-sourceCompatibility = '1.7'
+apply from: "${rootDir}/gradle/plugins/java-kotlin-library.gradle"
 
 dependencies {
     compile 'com.github.snowdream:annotation:0.2'

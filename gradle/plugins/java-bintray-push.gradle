@@ -1,6 +1,7 @@
 apply plugin: 'maven'
 apply plugin: 'com.jfrog.bintray'
 apply from: "${rootDir}/gradle/plugins/util.gradle"
+apply plugin: 'org.jetbrains.dokka'
 
 group = optProperty("POM_GROUP_ID")
 archivesBaseName = optProperty("POM_NAME")
@@ -72,10 +73,16 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
     from javadoc.destinationDir
 }
 
+task kotlinjavadocJar(type: Jar, dependsOn: dokka) {
+    classifier 'javadoc'
+    from "$buildDir/javadoc"
+}
+
 artifacts {
     archives classJar
     archives sourcesJar
     archives javadocJar
+    archives kotlinjavadocJar
 }
 
 private configurePOM(def pom) {

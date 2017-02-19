@@ -110,7 +110,7 @@ dokka {
     samples = ['samples/basic.kt', 'samples/advanced.kt']
     linkMapping {
         dir = "src/main/kotlin"
-        url = "https://github.com/SnowdreamFramework/util/blob/master/src/main/kotlin"
+        url = "https://github.com/snowdream/"
         suffix = "#L"
     }
     sourceDirs = files('src/main/kotlin')
