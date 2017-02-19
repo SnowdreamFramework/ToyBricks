@@ -87,7 +87,16 @@ constructor(classElement: TypeElement) : BaseAnnotatedClass() {
         val superClassElement = elementUtils.getTypeElement(qualifiedInterfaceClassName)
         if (superClassElement.kind == ElementKind.INTERFACE) {
             // Check interface implemented
-            if (!classElement.interfaces.contains(superClassElement.asType())) {
+            var isImplemented  = false
+
+            for (classElementInterface in classElement.interfaces){
+                if (classElementInterface.toString().equals(superClassElement.asType().toString())){
+                    isImplemented = true
+                    break
+                }
+            }
+
+            if (!isImplemented) {
                 throw ProcessingException(classElement,
                         "The class %s annotated with @%s must implement the interface %s",
                         classElement.qualifiedName.toString(), Implementation::class.java.simpleName,
