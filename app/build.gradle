@@ -3,8 +3,13 @@ apply plugin: 'idea'
 apply from: "${rootDir}/gradle/plugins/android.gradle"
 
 
+kapt {
+    generateStubs = true
+}
+
 dependencies {
     compile project(':lib')
     compile project(':annotation')
-    annotationProcessor project(':processor')
+//    annotationProcessor project(':processor')
+    kapt project(':processor')
 }
