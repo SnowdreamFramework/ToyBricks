@@ -44,7 +44,7 @@ android {
 
     signingConfigs {
         release {
-          if (hasProperty("KEYSTORE")) {
+          if (containsProperty("KEYSTORE")) {
             storeFile file(optProperty("KEYSTORE"))
             storePassword optProperty("KEYSTORE_PASSWORD")
             keyAlias optProperty("KEY_ALIAS")

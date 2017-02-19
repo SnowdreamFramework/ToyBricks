@@ -38,9 +38,9 @@ ext.optProperty = { propertyName , defaultPropertyValue = "" ->
   *  
   * apply from: "util.gradle"
   * 
-  * hasProperty("GRADLE_HOME")
+  * containsProperty("GRADLE_HOME")
   * 
   */  
- ext.hasProperty = { propertyName ->
+ ext.containsProperty = { propertyName ->
      return (System.getenv().containsKey(propertyName) || System.properties.containsKey(propertyName) || project.hasProperty(propertyName));
   }
