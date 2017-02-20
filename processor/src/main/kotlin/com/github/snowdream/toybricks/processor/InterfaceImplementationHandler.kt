@@ -194,7 +194,7 @@ class InterfaceImplementationHandler : BaseContainerHandler() {
         }
 
 
-        val elementUtils = processorManager.elementUtils
+        //val elementUtils = processorManager.elementUtils
         val filer = processorManager.filer
 
         val clazz = InterfaceLoader::class.java

@@ -31,7 +31,7 @@ class ProcessorManager internal constructor(private val mProcessingEnvironment: 
     }
 
     internal fun addHandlers(vararg containerHandlers: BaseContainerHandler) {
-        if (containerHandlers == null || containerHandlers.size <= 0) return
+        if (containerHandlers.size <= 0) return
 
         for (handler in containerHandlers) {
 
