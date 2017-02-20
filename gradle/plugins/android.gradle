@@ -9,7 +9,7 @@ dependencies {
     compile 'com.android.support:design:25.1.1'
     compile 'com.android.support:support-annotations:25.1.1'
     compile 'com.android.support:multidex:1.0.1'
-    compile 'com.github.snowdream:annotation:0.5@aar'
+    compile 'com.github.snowdream:annotation:0.6@aar'
 
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 

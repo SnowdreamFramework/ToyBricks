@@ -6,7 +6,6 @@ import com.github.snowdream.toybricks.annotation.InterfaceLoader
 import com.squareup.javapoet.*
 import java.io.IOException
 import java.util.*
-import java.util.Map
 import javax.annotation.processing.RoundEnvironment
 import javax.lang.model.element.ElementKind
 import javax.lang.model.element.Modifier
@@ -16,13 +15,13 @@ import javax.lang.model.element.TypeElement
  * Created by snowdream on 17/2/12.
  */
 class InterfaceImplementationHandler : BaseContainerHandler() {
-    private val interfaceMap = HashMap<String, InterfaceAnnotatedClass>()
+    private val interfaceMap = mutableMapOf<String, InterfaceAnnotatedClass>()
 
-    private val globalImplementationMap = HashMap<String, ImplementationAnnotatedClass>()
+    private val globalImplementationMap = mutableMapOf<String, ImplementationAnnotatedClass>()
 
-    private val defaultImplementationMap = HashMap<String, ImplementationAnnotatedClass>()
+    private val defaultImplementationMap = mutableMapOf<String, ImplementationAnnotatedClass>()
 
-    private val singletonImplementationSet = HashSet<ImplementationAnnotatedClass>()
+    private val singletonImplementationSet = mutableSetOf<ImplementationAnnotatedClass>()
 
     private lateinit var processorManager: ProcessorManager
 
