@@ -1,7 +1,3 @@
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply from: "${rootDir}/gradle/plugins/java-kotlin-library.gradle"
-
-dependencies {
-    compile 'com.github.snowdream:annotation:0.2'
-}

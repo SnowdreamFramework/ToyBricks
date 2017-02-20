@@ -8,6 +8,8 @@ kapt {
 }
 
 dependencies {
+    compile 'com.github.snowdream:annotation:0.5@aar'
+
     compile project(':lib')
     compile project(':annotation')
 //    annotationProcessor project(':processor')

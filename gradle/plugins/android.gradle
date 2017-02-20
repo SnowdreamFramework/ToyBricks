@@ -9,7 +9,7 @@ dependencies {
     compile 'com.android.support:design:25.1.1'
     compile 'com.android.support:support-annotations:25.1.1'
     compile 'com.android.support:multidex:1.0.1'
-    compile 'com.github.snowdream:annotation:0.2'
+    compile 'com.github.snowdream:annotation:0.5@aar'
 
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
@@ -57,7 +57,7 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
-            proguardFile getDefaultProguardFile('proguard-android.txt')
+            proguardFiles "${rootDir}/gradle/proguard/proguard-android-app-optimize.txt", 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
     }
