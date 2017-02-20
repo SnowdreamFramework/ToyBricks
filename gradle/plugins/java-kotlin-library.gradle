@@ -7,6 +7,10 @@ apply from: "${rootDir}/gradle/plugins/util.gradle"
 targetCompatibility = JavaVersion.VERSION_1_7
 sourceCompatibility = JavaVersion.VERSION_1_7
 
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+}
+
 sourceSets {
     main.java.srcDirs += 'src/main/kotlin'
     test.java.srcDirs += 'src/test/kotlin'
