@@ -21,14 +21,14 @@ constructor(classElement: TypeElement) : BaseAnnotatedClass() {
 
      * @return qualified name
      */
-    lateinit var qualifiedInterfaceClassName: String
+    var qualifiedInterfaceClassName: String? = null
         private set
     /**
      * Get the simple name of the type specified in  [Implementation.value].
 
      * @return qualified name
      */
-    lateinit var simpleInterfaceName: String
+    var simpleInterfaceName: String? = null
         private set
 
     var isGolbal = false
