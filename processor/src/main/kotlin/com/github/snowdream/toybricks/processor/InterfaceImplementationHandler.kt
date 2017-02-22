@@ -157,7 +157,7 @@ class InterfaceImplementationHandler : BaseContainerHandler() {
 
         val iterator = interfaceMap.entries.iterator()
         while (iterator.hasNext()) {
-            val entry = iterator.next() as Map.Entry<String, InterfaceAnnotatedClass>
+            val entry = iterator.next()
             val interfaceName = entry.key
             val annotatedClass = entry.value
 
@@ -245,9 +245,9 @@ class InterfaceImplementationHandler : BaseContainerHandler() {
             val globalMapMethodSpecBuilder = MethodSpec.methodBuilder("addGlobalMap")
                     .addModifiers(Modifier.PRIVATE)
 
-            var iterator: Iterator<*> = globalImplementationMap.entries.iterator()
+            var iterator = globalImplementationMap.entries.iterator()
             while (iterator.hasNext()) {
-                val entry = iterator.next() as Map.Entry<String, ImplementationAnnotatedClass>
+                val entry = iterator.next()
                 val interfaceName = entry.key
                 val annotatedClass = entry.value
 
@@ -262,7 +262,7 @@ class InterfaceImplementationHandler : BaseContainerHandler() {
 
             iterator = defaultImplementationMap.entries.iterator()
             while (iterator.hasNext()) {
-                val entry = iterator.next() as Map.Entry<String, ImplementationAnnotatedClass>
+                val entry = iterator.next()
                 val interfaceName = entry.key
                 val annotatedClass = entry.value
 
