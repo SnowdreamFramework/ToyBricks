@@ -7,6 +7,7 @@ import com.github.snowdream.toybricks.annotation.InterfaceLoader
  */
 class DefaultInterfaceLoader : InterfaceLoader {
 
+    @Suppress("UNCHECKED_CAST")
     override fun <T> getImplementation(clazz: Class<T>): T {
         var implementation: T? = null
 
