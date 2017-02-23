@@ -82,6 +82,8 @@ IText text = ToyBricks.getImplementation(IText.class);
 
 ## Attention
 1. For one interface, You can have only one default implementation and only one global implementation at the same time.
+1. For interface,it should be public.
+1. For implementation, it should be public,but not be abstract. it should inherit from the interface, and provide an empty public constructor.
 1. You can add `singleton = true` to define Singleton for java and kotlin
 1. Global implementation has the higher priority than default implementation. so, if them exist at the same time ,the global implementation will be used.
 
