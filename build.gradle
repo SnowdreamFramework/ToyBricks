@@ -27,7 +27,7 @@ allprojects {
     repositories {
         maven { url  'file:///' + System.getenv("ANDROID_HOME")+ '/extras/android/m2repository/'}
         maven { url  'file:///' + new File(System.getProperty('user.home'), '.m2/repository').absolutePath}
-        //maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
         jcenter { url "http://jcenter.bintray.com/"}
         maven { url "http://repo1.maven.org/maven2"}
         maven { url "https://jitpack.io" }
