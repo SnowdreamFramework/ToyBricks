@@ -1,0 +1,3 @@
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply from: "${rootDir}/gradle/plugins/java-groovy-library.gradle"

@@ -1,3 +1,6 @@
-include ':app', ':annotation', ':processor', ':lib'
+include ':app'
+include 'annotation'
 include 'processor'
+include 'lib'
+include 'plugin'
 

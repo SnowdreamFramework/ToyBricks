@@ -1,15 +1,20 @@
 package com.github.snowdream.toybricks.processor
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.github.snowdream.toybricks.annotation.Implementation
 import com.github.snowdream.toybricks.annotation.Interface
 import com.github.snowdream.toybricks.annotation.InterfaceLoader
 import com.squareup.javapoet.*
+import java.io.BufferedWriter
 import java.io.IOException
 import java.util.*
 import javax.annotation.processing.RoundEnvironment
 import javax.lang.model.element.ElementKind
 import javax.lang.model.element.Modifier
 import javax.lang.model.element.TypeElement
+import javax.tools.StandardLocation
+
 
 /**
  * Created by snowdream on 17/2/12.
@@ -37,7 +42,8 @@ class InterfaceImplementationHandler : BaseContainerHandler() {
         handleImplementationAnnotation(roundEnvironment)
 
         checkInterfaceImplementation()
-        generateJavaFile()
+        //generateJavaFile()
+        generateJsonFile()
     }
 
     /**
@@ -384,4 +390,84 @@ class InterfaceImplementationHandler : BaseContainerHandler() {
 
     }
 
+
+    /**
+     * generate json file
+     */
+    private fun generateJsonFile() {
+        if (interfaceMap.isEmpty() &&
+                globalImplementationMap.isEmpty() &&
+                defaultImplementationMap.isEmpty()) {
+            return
+        }
+
+
+        //val elementUtils = processorManager.elementUtils
+        val filer = processorManager.filer
+        val resource = filer.createResource(StandardLocation.SOURCE_OUTPUT, "", "ToyBricks.json")
+        val writter = BufferedWriter(resource.openWriter())
+
+        //deal interfaceMap
+        val interfaceList = mutableListOf<String>()
+        if (!interfaceMap.isEmpty()) {
+            val iterator = interfaceMap.entries.iterator()
+            while (iterator.hasNext()) {
+                val entry = iterator.next()
+                val interfaceName = entry.key
+                //val annotatedClass = entry.value
+
+                interfaceList.add(interfaceName)
+            }
+        }
+
+        //deal globalImplementationMap
+        val globalImplementation = mutableMapOf<String,String>()
+        if (!globalImplementationMap.isEmpty()) {
+            val iterator = globalImplementationMap.entries.iterator()
+            while (iterator.hasNext()) {
+                val entry = iterator.next()
+                val interfaceName = entry.key
+                val annotatedClass = entry.value
+
+                globalImplementation.put(interfaceName,annotatedClass.typeElement.getQualifiedName().toString())
+            }
+        }
+
+        //deal defaultImplementationMap
+        val defaultImplementation = mutableMapOf<String,String>()
+        if (!defaultImplementationMap.isEmpty()) {
+            val iterator = defaultImplementationMap.entries.iterator()
+            while (iterator.hasNext()) {
+                val entry = iterator.next()
+                val interfaceName = entry.key
+                val annotatedClass = entry.value
+
+                defaultImplementation.put(interfaceName,annotatedClass.typeElement.getQualifiedName().toString())
+            }
+        }
+
+
+        //deal singletonImplementationSet
+        val singletonImplementation = mutableListOf<String>()
+        if (!singletonImplementationSet.isEmpty()) {
+            val iterator = singletonImplementationSet.iterator()
+            while (iterator.hasNext()) {
+                val annotatedClass = iterator.next()
+
+                singletonImplementation.add(annotatedClass.typeElement.qualifiedName.toString())
+            }
+        }
+
+
+        val entity = ToyBricksJsonEntity(interfaceList, globalImplementation,defaultImplementation,singletonImplementation)
+
+        val mapper = ObjectMapper().registerModule(KotlinModule())
+        val json = mapper
+                .writerWithDefaultPrettyPrinter()
+                .writeValueAsString(entity)
+
+        writter.write(json)
+        writter.flush()
+        writter.close()
+    }
 }
