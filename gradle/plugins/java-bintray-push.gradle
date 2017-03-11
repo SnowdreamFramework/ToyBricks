@@ -70,16 +70,19 @@ task sourcesJar(type: Jar) {
     from sourceSets.main.allSource
     from "$buildDir/generated/source/kapt/release/ToyBricks.json"
     from "$buildDir/generated/source/apt/release/ToyBricks.json"
+    includeEmptyDirs false
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
     classifier 'javadoc'
     from javadoc.destinationDir
+    includeEmptyDirs false
 }
 
 task kotlinjavadocJar(type: Jar, dependsOn: dokka) {
     classifier 'javadoc'
     from "$buildDir/javadoc"
+    includeEmptyDirs false
 }
 
 artifacts {

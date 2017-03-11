@@ -65,11 +65,13 @@ task androidReleaseJar(type: Jar,dependsOn: "assembleRelease") {
     exclude '**/BuildConfig.class'
     exclude '**/R.class'
     exclude '**/R$*.class'
+    includeEmptyDirs false
 }
 
 task androidJavadocsJar(type: Jar) {
     classifier = 'javadoc'
     from "generateReleaseJavadoc.destinationDir"
+    includeEmptyDirs false
 }
 
 task androidSourcesJar(type: Jar) {
@@ -77,6 +79,7 @@ task androidSourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
     from "$buildDir/generated/source/kapt/release/ToyBricks.json"
     from "$buildDir/generated/source/apt/release/ToyBricks.json"
+    includeEmptyDirs false
 }
 
 task kotlinjavadocJar(type: Jar, dependsOn: dokka) {
