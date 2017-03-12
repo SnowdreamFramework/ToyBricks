@@ -9,10 +9,15 @@ import org.gradle.api.tasks.TaskAction
  * @date 2017/03/08
  */
 class ToybricksTask extends DefaultTask {
+
+
+
     String greeting = 'hello from ToybricksTask'
 
     @TaskAction
     def greet() {
         println greeting
+        //project.configurations.compile.each { File file -> println file.absolutePath }
+
     }
 }

@@ -1,6 +1,7 @@
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply from: "${rootDir}/gradle/plugins/android.gradle"
+apply plugin: 'toybricks'
 
 //kapt {
 //    generateStubs = true
