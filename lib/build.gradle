@@ -9,9 +9,24 @@ kapt {
 
 dependencies {
     compile project(':annotation')
+//    annotationProcessor project(':processor')
     kapt project(':processor')
 }
 
 task listJars << {
     configurations.compile.each { File file -> println file.absolutePath }
 }
+
+//android {
+//
+//    productFlavors {
+//        flavor1 {
+//            versionCode 20
+//        }
+//
+//
+//        flavor2 {
+//            minSdkVersion 14
+//        }
+//    }
+//}
