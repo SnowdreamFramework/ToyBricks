@@ -8,9 +8,10 @@ buildscript {
         jcenter { url "http://jcenter.bintray.com/"}
         maven { url "http://repo1.maven.org/maven2"}
     }
-
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.2'
-    }
 }
 
+dependencies {
+    compile project(':annotation')
+
+    compile 'com.squareup:javapoet:1.8.0'
+}

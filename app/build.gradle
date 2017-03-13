@@ -1,19 +1,19 @@
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply from: "${rootDir}/gradle/plugins/android.gradle"
-apply plugin: 'toybricks'
+apply plugin: 'com.github.snowdream.toybricks'
 
-//kapt {
-//    generateStubs = true
-//}
+kapt {
+    generateStubs = true
+}
 
 dependencies {
     compile 'com.github.snowdream:annotation:0.7@aar'
 
     compile project(':lib')
     compile project(':annotation')
-    annotationProcessor project(':processor')
-//    kapt project(':processor')
+//    annotationProcessor project(':processor')
+    kapt project(':processor')
 }
 
 task listJars << {
