@@ -8,6 +8,7 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.file.FileCollection
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFiles
+import org.gradle.api.tasks.OutputDirectories
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.StopExecutionException
@@ -28,8 +29,6 @@ class ToybricksTask extends DefaultTask {
     @Input
     boolean isKotlinAndroidProject
 
-    String greeting = 'hello from ToybricksTask'
-
     /**
      * The input dependencies.
      */
@@ -39,9 +38,8 @@ class ToybricksTask extends DefaultTask {
     /**
      * The output directory.
      */
-    @OutputDirectory
-    File outputDir
-
+    @OutputDirectories
+    FileCollection outputDirs
 
     List<ToyBricksJsonEntity> list = new ArrayList<>()
 
@@ -49,15 +47,11 @@ class ToybricksTask extends DefaultTask {
 
     @TaskAction
     main() {
-
-        println greeting
-
         initMergedToyBricksJson()
         parseToyBricksJson()
         checkToyBricksJson()
         mergeToyBricksJson()
         generateJavaFile()
-        println outputDir.absolutePath
     }
 
     def initMergedToyBricksJson() {
@@ -70,16 +64,28 @@ class ToybricksTask extends DefaultTask {
     def parseToyBricksJson() {
         //parse current project ToyBricks.json
         def jsonSlurper = new JsonSlurper()
-        File currentToyBricksJson = new File(outputDir, "ToyBricks.json")
-        if (currentToyBricksJson.exists() && currentToyBricksJson.canRead()){
-            def entity = jsonSlurper.parse(currentToyBricksJson) as ToyBricksJsonEntity
-            list.add(entity)
+
+        def currentEntity
+        outputDirs.each { File outputDir ->
+            if (currentEntity == null) {
+                def currentToyBricksJson = new File(outputDir, "ToyBricks.json")
+
+                if (currentToyBricksJson.exists() && currentToyBricksJson.canRead()) {
+                    currentEntity = jsonSlurper.parse(currentToyBricksJson) as ToyBricksJsonEntity
+                }
+            }
+        }
+
+        if (currentEntity != null){
+            list.add(currentEntity)
+        }else{
+            println "There is no ToyBricks.json in the current project."
         }
 
         //parse dependencies ToyBricks.json
         dependencies.each { File file ->
             String content = getToyBricksJsonContentFromZip(file)
-            println content
+            //println content
 
             if (content != null && !content.isEmpty()) {
                 try {
@@ -361,7 +367,11 @@ class ToybricksTask extends DefaultTask {
 
             def javaFile = JavaFile.builder(packageName, typeSpec)
                     .build()
-            javaFile.writeTo(outputDir)
+
+            outputDirs.each { File outputDir ->
+                javaFile.writeTo(outputDir)
+                println "${typeSpec.name}.java  has been generated in ${outputDir}."
+            }
         } catch (IOException e) {
             e.printStackTrace()
         }
@@ -374,7 +384,7 @@ class ToybricksTask extends DefaultTask {
      * @return
      */
     static String getToyBricksJsonContentFromZip(File file) {
-        println file.absolutePath
+        //println file.absolutePath
 
         def content = ""
 
