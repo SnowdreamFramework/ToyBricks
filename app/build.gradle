@@ -1,7 +1,6 @@
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply from: "${rootDir}/gradle/plugins/android.gradle"
-apply plugin: 'com.github.snowdream.toybricks'
 
 kapt {
     generateStubs = true
@@ -11,11 +10,24 @@ dependencies {
     compile 'com.github.snowdream:annotation:0.7@aar'
 
     compile project(':lib')
-    compile project(':annotation')
-//    annotationProcessor project(':processor')
-    kapt project(':processor')
+    compile "com.github.snowdream.toybricks:annotation:0.9.3"
+
+    //annotationProcessor project(':processor')
+    //kapt "com.github.snowdream.toybricks:processor:0.9.3"
+    annotationProcessor "com.github.snowdream.toybricks:processor:0.9.3"
 }
 
-task listJars << {
-    configurations.compile.each { File file -> println file.absolutePath }
+apply plugin: 'com.github.snowdream.toybricks'
+android {
+
+    productFlavors {
+        flavor1 {
+            versionCode 20
+        }
+
+
+        flavor2 {
+            minSdkVersion 14
+        }
+    }
 }

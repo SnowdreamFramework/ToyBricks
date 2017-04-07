@@ -85,8 +85,8 @@ android {
         abortOnError false
     }
 }
-android.libraryVariants.all { variant ->
 
+android.libraryVariants.all { variant ->
     task("generate${variant.name}Javadoc", type: Javadoc) {
         title = "android lib - " + optProperty("PROJECT_NAME", project.name) + " v" + optProperty("VERSION_NAME") + " API"
         description "Generates Javadoc for $variant.name."
@@ -104,62 +104,7 @@ android.libraryVariants.all { variant ->
         exclude '**/BuildConfig.java'
         exclude '**/R.java'
     }
-
-    def variantCapitalizeName = "${variant.name}".capitalize()
-    task("copy${variantCapitalizeName}ToyBricksJsonFile", type: Copy) {
-        from "$buildDir/generated/source/kapt/${variant.name}"
-        from "$buildDir/generated/source/apt/${variant.name}"
-        into "$buildDir/intermediates/bundles/${variant.name}"
-    }
-    tasks["copy${variantCapitalizeName}ToyBricksJsonFile"].dependsOn(tasks["extract${variantCapitalizeName}Annotations"])
-    tasks["extract${variantCapitalizeName}Annotations"].finalizedBy(tasks["copy${variantCapitalizeName}ToyBricksJsonFile"])
-
-//        tasks["extract${variantCapitalizeName}Annotations"].dependsOn(tasks["copy${variantCapitalizeName}ToyBricksJsonFile"])
-//        tasks["copy${variantCapitalizeName}ToyBricksJsonFile"].finalizedBy(tasks["extract${variantCapitalizeName}Annotations"])
-
-//        gradle.taskGraph.whenReady {taskGraph ->
-//            def isFind = false
-//
-//            taskGraph.allTasks.reverse().each {
-//                if (isFind){
-//                    isFind = false
-//
-//                    tasks["copy${variantCapitalizeName}ToyBricksJsonFile"].dependsOn(it)
-//
-//                    println it.name
-//                    println "isFind = false"
-//                }
-//
-//                if (it.name.equalsIgnoreCase("extract${variantCapitalizeName}Annotations")){
-//                    isFind = true
-//
-//                    it.dependsOn(tasks["copy${variantCapitalizeName}ToyBricksJsonFile"])
-//                    println it.name
-//                    println "isFind = true"
-//                }
-//            }
-//        }
 }
-
-//
-//gradle.taskGraph.afterTask { task ->
-//    StringBuffer taskDetails = new StringBuffer()
-//    taskDetails << """"-------------
-//name:$task.name group:$task.group : $task.description
-//conv:$task.convention.plugins
-//inputs:
-//"""
-//    task.inputs.files.each{ it ->
-//        taskDetails << " ${it.absolutePath}\n"
-//    }
-//    taskDetails << "outputs:\n"
-//    task.outputs.files.each{ it ->
-//        taskDetails << " ${it.absolutePath}\n"
-//    }
-//
-//    taskDetails << "-------------"
-//    println taskDetails
-//}
 
 dokka {
     moduleName = 'util'

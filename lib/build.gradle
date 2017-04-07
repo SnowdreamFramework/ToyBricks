@@ -3,19 +3,18 @@ apply plugin: 'idea'
 apply from: "${rootDir}/gradle/plugins/android-library.gradle"
 apply from: "${rootDir}/gradle/plugins/android-bintray-push.gradle"
 
-kapt {
-    generateStubs = true
-}
+//kapt {
+//    generateStubs = true
+//}
 
 dependencies {
-    compile project(':annotation')
-//    annotationProcessor project(':processor')
-    kapt project(':processor')
+    compile "com.github.snowdream.toybricks:annotation:0.9.3"
+
+    kapt "com.github.snowdream.toybricks:processor:0.9.3"
+//    annotationProcessor "com.github.snowdream.toybricks:processor:0.9.3"
 }
 
-task listJars << {
-    configurations.compile.each { File file -> println file.absolutePath }
-}
+apply plugin: 'com.github.snowdream.toybricks'
 
 //android {
 //
