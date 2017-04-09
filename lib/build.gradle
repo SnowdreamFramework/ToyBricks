@@ -8,10 +8,10 @@ kapt {
 }
 
 dependencies {
-    compile "com.github.snowdream.toybricks:annotation:0.9.3"
+    compile "com.github.snowdream.toybricks:annotation:0.9.5"
 
-    kapt "com.github.snowdream.toybricks:processor:0.9.3"
-    //annotationProcessor "com.github.snowdream.toybricks:processor:0.9.3"
+    kapt "com.github.snowdream.toybricks:processor:0.9.5"
+    //annotationProcessor "com.github.snowdream.toybricks:processor:0.9.5"
 }
 
 apply plugin: 'com.github.snowdream.toybricks'
