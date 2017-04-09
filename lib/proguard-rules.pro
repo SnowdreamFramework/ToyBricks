@@ -22,6 +22,7 @@
 
 # @Interface and @Implementation specifies not to shrink, optimize, or obfuscate the annotated class
 # or class member as an entry point.
+-dontwarn org.jetbrains.annotations.**
 -dontwarn com.github.snowdream.toybricks.annotation.**
 -keep class com.github.snowdream.toybricks.annotation.**
 -keep @com.github.snowdream.toybricks.annotation.Interface class *
