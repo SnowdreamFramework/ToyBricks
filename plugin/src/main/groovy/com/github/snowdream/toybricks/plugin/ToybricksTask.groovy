@@ -10,6 +10,7 @@ import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.OutputDirectories
 import org.gradle.api.tasks.OutputDirectory
+import org.gradle.api.tasks.SkipWhenEmpty
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.StopExecutionException
 
@@ -33,6 +34,7 @@ class ToybricksTask extends DefaultTask {
      * The input dependencies.
      */
     @InputFiles
+    @SkipWhenEmpty
     FileCollection dependencies
 
     /**
