@@ -4,7 +4,7 @@ apply from: "${rootDir}/gradle/plugins/java-kotlin-library.gradle"
 
 
 dependencies {
-    compile "com.github.snowdream.toybricks:annotation:0.9.5"
+    compile "com.github.snowdream.toybricks:annotation:0.9.6"
 
     compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.8.7"
     compile 'com.squareup:javapoet:1.8.0'

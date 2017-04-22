@@ -10,11 +10,11 @@ dependencies {
     compile 'com.github.snowdream:annotation:0.7@aar'
 
     compile project(':lib')
-    compile "com.github.snowdream.toybricks:annotation:0.9.5"
+    compile "com.github.snowdream.toybricks:annotation:0.9.6"
 
     //annotationProcessor project(':processor')
-    //kapt "com.github.snowdream.toybricks:processor:0.9.5"
-    annotationProcessor "com.github.snowdream.toybricks:processor:0.9.5"
+    //kapt "com.github.snowdream.toybricks:processor:0.9.6"
+    annotationProcessor "com.github.snowdream.toybricks:processor:0.9.6"
 }
 
 apply plugin: 'com.github.snowdream.toybricks'

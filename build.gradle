@@ -20,9 +20,9 @@ buildscript {
         classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:${dokka_version}" //for kotlin android dokka
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:${dokka_version}" //for kotlin java dokka
 
-        classpath 'com.github.snowdream.toybricks:android-toybricks-gradle-plugin:0.9.5'
-//        classpath files('plugin/build/libs/android-toybricks-gradle-plugin-0.9.5.jar')
-//        classpath "com.github.snowdream.toybricks:annotation:0.9.5"
+        classpath 'com.github.snowdream.toybricks:android-toybricks-gradle-plugin:0.9.6'
+//        classpath files('plugin/build/libs/android-toybricks-gradle-plugin-0.9.6.jar')
+//        classpath "com.github.snowdream.toybricks:annotation:0.9.6"
 //        classpath 'com.squareup:javapoet:1.8.0'
     }
 
