@@ -163,8 +163,9 @@ class ToybricksPlugin implements Plugin<Project> {
                 }
                 into "${project.buildDir}/intermediates/bundles/${variant.dirName}"
             }
-            project.tasks["copy${variantCapitalizeName}ToyBricksJsonFile"].dependsOn(project.tasks["extract${variantCapitalizeName}Annotations"])
-            project.tasks["extract${variantCapitalizeName}Annotations"].finalizedBy(project.tasks["copy${variantCapitalizeName}ToyBricksJsonFile"])
+            project.tasks["bundle${variantCapitalizeName}"].dependsOn(project.tasks["copy${variantCapitalizeName}ToyBricksJsonFile"])
+            project.tasks["copy${variantCapitalizeName}ToyBricksJsonFile"].dependsOn(project.tasks["transformClassesAndResourcesWithSyncLibJarsFor${variantCapitalizeName}"])
+            project.tasks["transformClassesAndResourcesWithSyncLibJarsFor${variantCapitalizeName}"].finalizedBy(project.tasks["copy${variantCapitalizeName}ToyBricksJsonFile"])
         }
     }
 }
