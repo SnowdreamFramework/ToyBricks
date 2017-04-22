@@ -161,6 +161,11 @@ class InterfaceImplementationHandler : BaseContainerHandler() {
             return
         }
 
+        //lib with only interface,skip the implementation check
+        if (globalImplementationMap.isEmpty() && defaultImplementationMap.isEmpty()){
+            return
+        }
+
         val iterator = interfaceMap.entries.iterator()
         while (iterator.hasNext()) {
             val entry = iterator.next()
@@ -395,12 +400,9 @@ class InterfaceImplementationHandler : BaseContainerHandler() {
      * generate json file
      */
     private fun generateJsonFile() {
-        if (interfaceMap.isEmpty() &&
-                globalImplementationMap.isEmpty() &&
-                defaultImplementationMap.isEmpty()) {
+        if (interfaceMap.isEmpty()) {
             return
         }
-
 
         //val elementUtils = processorManager.elementUtils
         val filer = processorManager.filer
