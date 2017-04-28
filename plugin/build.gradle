@@ -11,7 +11,7 @@ buildscript {
 }
 
 dependencies {
-    compile "com.github.snowdream.toybricks:annotation:0.9.6"
+    compile "com.github.snowdream.toybricks:annotation:0.9.9"
 
     compile 'com.squareup:javapoet:1.8.0'
 }
