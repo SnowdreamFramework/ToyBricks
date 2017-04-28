@@ -31,7 +31,9 @@ class ProcessorManager internal constructor(private val mProcessingEnvironment: 
     }
 
     internal fun addHandlers(vararg containerHandlers: BaseContainerHandler) {
-        if (containerHandlers.size <= 0) return
+        if (containerHandlers.isEmpty()) {
+            return
+        }
 
         for (handler in containerHandlers) {
 
@@ -72,7 +74,7 @@ class ProcessorManager internal constructor(private val mProcessingEnvironment: 
      * *
      * @param msg The error message
      */
-    fun info(e: Element, msg: String) {
+    fun info(e: Element?, msg: String) {
         messager.printMessage(Diagnostic.Kind.NOTE, msg, e)
     }
 }

@@ -20,7 +20,7 @@ import javax.tools.StandardLocation
  * Created by snowdream on 17/2/12.
  */
 class InterfaceImplementationHandler : BaseContainerHandler() {
-    private val interfaceMap = mutableMapOf<String, InterfaceAnnotatedClass>()
+    private val interfaceMap = mutableMapOf<String, InterfaceAnnotatedClass?>()
 
     private val globalImplementationMap = mutableMapOf<String, ImplementationAnnotatedClass>()
 
@@ -84,73 +84,83 @@ class InterfaceImplementationHandler : BaseContainerHandler() {
     /**
      * handle Annotation @Implementation
      */
-    private fun handleImplementationAnnotation(roundEnv: RoundEnvironment) {
+    private fun handleImplementationAnnotation(roundEnv: RoundEnvironment) = try {
+        // Scan classes
+        for (annotatedElement in roundEnv.getElementsAnnotatedWith(Implementation::class.java)) {
 
-        try {
-            // Scan classes
-            for (annotatedElement in roundEnv.getElementsAnnotatedWith(Implementation::class.java)) {
+            // Check if a class has been annotated with @Factory
+            if (annotatedElement.kind != ElementKind.CLASS) {
+                throw ProcessingException(annotatedElement, "Only classes can be annotated with @%s",
+                        Implementation::class.java.simpleName)
+            }
 
-                // Check if a class has been annotated with @Factory
-                if (annotatedElement.kind != ElementKind.CLASS) {
-                    throw ProcessingException(annotatedElement, "Only classes can be annotated with @%s",
-                            Implementation::class.java.simpleName)
-                }
+            // We can cast it, because we know that it of ElementKind.CLASS
+            val typeElement = annotatedElement as TypeElement
 
-                // We can cast it, because we know that it of ElementKind.CLASS
-                val typeElement = annotatedElement as TypeElement
+            val annotatedClass = ImplementationAnnotatedClass(typeElement)
 
-                val annotatedClass = ImplementationAnnotatedClass(typeElement)
+            annotatedClass.checkValid(processorManager)
 
-                annotatedClass.checkValid(processorManager)
+            val interfaceName = annotatedClass.qualifiedInterfaceClassName
 
-                val interfaceName = annotatedClass.qualifiedInterfaceClassName
+            //fix: when interface is in module a,but Implementation is in module b
+            //it will not work.
+            if (interfaceName == null || interfaceName == ""){
+                continue
+            }
 
-                if (annotatedClass.isGolbal) {
-                    if (globalImplementationMap.containsKey(interfaceName)) {
-                        val implementationAnnotatedClass = globalImplementationMap[interfaceName]
+            if (!interfaceMap.containsKey(interfaceName)) {
+                interfaceMap.put(interfaceName, null)
 
-                        // Alredy existing
-                        throw ProcessingException(annotatedClass.typeElement,
-                                "Conflict: The class %s is annotated with @%s with interface %s, but %s already uses the same interface",
-                                annotatedClass.typeElement.qualifiedName.toString(), Implementation::class.java.simpleName,
-                                interfaceName, implementationAnnotatedClass?.typeElement?.qualifiedName.toString())
-                    } else {
-                        globalImplementationMap.put(interfaceName as String, annotatedClass)
+                processorManager.info(null,"Found interface " +
+                        interfaceName +
+                        ", annotated with @" + Interface::class.java.simpleName)
+            }
 
-                        if (annotatedClass.isSingleton) {
-                            singletonImplementationSet.add(annotatedClass)
-                        }
+            if (annotatedClass.isGolbal) {
+                if (globalImplementationMap.containsKey(interfaceName)) {
+                    val implementationAnnotatedClass = globalImplementationMap[interfaceName]
 
-                        processorManager.info(annotatedClass.typeElement, "Found Global Implementation " +
-                                annotatedClass.typeElement.qualifiedName.toString() +
-                                ", annotated with @" + Implementation::class.java.simpleName)
-                    }
+                    // Alredy existing
+                    throw ProcessingException(annotatedClass.typeElement,
+                            "Conflict: The class %s is annotated with @%s with interface %s, but %s already uses the same interface",
+                            annotatedClass.typeElement.qualifiedName.toString(), Implementation::class.java.simpleName,
+                            interfaceName, implementationAnnotatedClass?.typeElement?.qualifiedName.toString())
                 } else {
-                    if (defaultImplementationMap.containsKey(interfaceName)) {
-                        val implementationAnnotatedClass = defaultImplementationMap[interfaceName]
+                    globalImplementationMap.put(interfaceName as String, annotatedClass)
 
-                        // Alredy existing
-                        throw ProcessingException(annotatedClass.typeElement,
-                                "Conflict: The class %s is annotated with @%s with interface %s, but %s already uses the same interface",
-                                annotatedClass.typeElement.qualifiedName.toString(), Implementation::class.java.simpleName,
-                                interfaceName, implementationAnnotatedClass?.typeElement?.qualifiedName.toString())
-                    } else {
-                        defaultImplementationMap.put(interfaceName as String, annotatedClass)
-
-                        if (annotatedClass.isSingleton) {
-                            singletonImplementationSet.add(annotatedClass)
-                        }
-
-                        processorManager.info(annotatedClass.typeElement, "Found Default Implementation " +
-                                annotatedClass.typeElement.qualifiedName.toString() +
-                                ", annotated with @" + Implementation::class.java.simpleName)
+                    if (annotatedClass.isSingleton) {
+                        singletonImplementationSet.add(annotatedClass)
                     }
+
+                    processorManager.info(annotatedClass.typeElement, "Found Global Implementation " +
+                            annotatedClass.typeElement.qualifiedName.toString() +
+                            ", annotated with @" + Implementation::class.java.simpleName)
+                }
+            } else {
+                if (defaultImplementationMap.containsKey(interfaceName)) {
+                    val implementationAnnotatedClass = defaultImplementationMap[interfaceName]
+
+                    // Alredy existing
+                    throw ProcessingException(annotatedClass.typeElement,
+                            "Conflict: The class %s is annotated with @%s with interface %s, but %s already uses the same interface",
+                            annotatedClass.typeElement.qualifiedName.toString(), Implementation::class.java.simpleName,
+                            interfaceName, implementationAnnotatedClass?.typeElement?.qualifiedName.toString())
+                } else {
+                    defaultImplementationMap.put(interfaceName as String, annotatedClass)
+
+                    if (annotatedClass.isSingleton) {
+                        singletonImplementationSet.add(annotatedClass)
+                    }
+
+                    processorManager.info(annotatedClass.typeElement, "Found Default Implementation " +
+                            annotatedClass.typeElement.qualifiedName.toString() +
+                            ", annotated with @" + Implementation::class.java.simpleName)
                 }
             }
-        } catch (e: ProcessingException) {
-            processorManager.error(e.element, e.message as String)
         }
-
+    } catch (e: ProcessingException) {
+        processorManager.error(e.element, e.message as String)
     }
 
     /**
@@ -186,9 +196,15 @@ class InterfaceImplementationHandler : BaseContainerHandler() {
                 if (hasImplementation) continue
             }
 
-            processorManager.error(annotatedClass.typeElement, "Error: The interface " +
-                    annotatedClass.typeElement.getQualifiedName().toString() +
-                    " has no Implementation.")
+            if (annotatedClass == null){
+                processorManager.error(null, "Error: The interface " +
+                        interfaceName +
+                        " has no Implementation.")
+            }else{
+                processorManager.error(annotatedClass.typeElement, "Error: The interface " +
+                        annotatedClass.typeElement.getQualifiedName().toString() +
+                        " has no Implementation.")
+            }
         }
     }
 
