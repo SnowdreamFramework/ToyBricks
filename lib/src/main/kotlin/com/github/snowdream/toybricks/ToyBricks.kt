@@ -13,12 +13,12 @@ class ToyBricks {
             @JvmField var sDefaultInterfaceLoader: InterfaceLoader = DefaultInterfaceLoader()
 
             //NewI InterfaceLoader
-            @JvmField var sNewInterfaceLoader: InterfaceLoader = sDefaultInterfaceLoader.getImplementation(InterfaceLoader::class.java)
+            @JvmField var sNewInterfaceLoader: InterfaceLoader ?= sDefaultInterfaceLoader.getImplementation(InterfaceLoader::class.java)
 
             @JvmStatic @Synchronized fun <T> getImplementation(clazz: Class<T>): T {
-                var implementation: T
+                var implementation: T?
 
-                implementation = sNewInterfaceLoader.getImplementation(clazz)
+                implementation = sNewInterfaceLoader?.getImplementation(clazz)
 
                 if (implementation == null) {
                     implementation = sDefaultInterfaceLoader.getImplementation(clazz)

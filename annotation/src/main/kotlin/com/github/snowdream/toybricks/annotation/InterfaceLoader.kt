@@ -8,5 +8,5 @@ interface InterfaceLoader {
     /**
      * get Implementation for the interface.
      */
-    fun <T> getImplementation(clazz: Class<T>): T
+    fun <T> getImplementation(clazz: Class<T>): T?
 }
