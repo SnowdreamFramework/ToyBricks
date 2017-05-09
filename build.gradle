@@ -1,6 +1,6 @@
 buildscript {
-    ext.kotlin_version = '1.1.1'
-    ext.dokka_version = '0.9.13'
+    ext.kotlin_version = '1.1.2-2'
+    ext.dokka_version = '0.9.14-eap-2'
 
     repositories {
         maven { url  'file:///' + System.getenv("ANDROID_HOME")+ '/extras/android/m2repository/'}
@@ -9,11 +9,12 @@ buildscript {
         jcenter { url "http://jcenter.bintray.com/"}
         maven { url "http://repo1.maven.org/maven2"}
         maven { url "https://jitpack.io" }
+        maven {url "https://plugins.gradle.org/m2/" }
         maven { url "http://oss.sonatype.org/content/repositories/snapshots" }
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.2'
+        classpath 'com.android.tools.build:gradle:2.3.0'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5' //for bintray_push.gradle
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.1'//for bintray_push.gradle
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version" //for kotlin

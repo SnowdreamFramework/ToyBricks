@@ -2,9 +2,7 @@ apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply from: "${rootDir}/gradle/plugins/android.gradle"
 
-kapt {
-    generateStubs = true
-}
+apply plugin: 'kotlin-kapt'
 
 dependencies {
     compile 'com.github.snowdream:annotation:0.7@aar'
@@ -13,8 +11,8 @@ dependencies {
     compile "com.github.snowdream.toybricks:annotation:0.9.10"
 
     //annotationProcessor project(':processor')
-   // kapt "com.github.snowdream.toybricks:processor:0.9.10"
-    annotationProcessor "com.github.snowdream.toybricks:processor:0.9.10"
+    kapt "com.github.snowdream.toybricks:processor:0.9.10"
+//    annotationProcessor "com.github.snowdream.toybricks:processor:0.9.10"
 }
 
 apply plugin: 'com.github.snowdream.toybricks'
