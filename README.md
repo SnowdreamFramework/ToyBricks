@@ -3,6 +3,10 @@
 [![GITHUB](https://img.shields.io/github/issues/badges/ToyBricks.svg)](https://github.com/SnowdreamFramework/ToyBricks/issues)
 [![LICENSE](https://img.shields.io/hexpm/l/plug.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
+## 中文文档
+1. [ToyBricks简介以及原理分析](https://mp.weixin.qq.com/s?__biz=MzIyNTczOTYwMA==&mid=2247483911&idx=1&sn=16a661bee016146fa7ee83f15a0ea615&chksm=e87a5438df0ddd2e847a742fca7c5e31538350a1585158ee72a31f83cf4dc549aff13080c5f7#rd)
+1. [ToyBricks用户手册](https://mp.weixin.qq.com/s?__biz=MzIyNTczOTYwMA==&mid=2247483913&idx=1&sn=d1e2d807f08f653b3675dafe4bbcd56c&chksm=e87a5436df0ddd20e48141d504570d2895c2b546cbacb58a454c275295f5c408d0ebb04e68c7#rd)
+
 ## Introduction
 
 Android Library that provide simpler way to achieve modularity.
